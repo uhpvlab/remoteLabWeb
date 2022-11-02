@@ -1,5 +1,5 @@
-admin:
-    path: /admin
+api_admin:
+    path: /admin/api
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
     defaults:
         template: admin.html.twig

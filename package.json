@@ -19,5 +19,10 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@api-platform/admin": "^3.4.3",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     }
 }
