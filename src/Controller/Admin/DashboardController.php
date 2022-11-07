@@ -35,10 +35,18 @@ class DashboardController extends AbstractDashboardController
         //     return $this->redirect('...');
         // }
 
+       if($this->isGranted('ROLE_ADMIN'))
+       {
+             return $this->render('dashboard/index.html.twig');
+       }
+
+        return $this->redirectToRoute('dash');
+
+
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-         return $this->render('dashboard/index.html.twig');
+         //return $this->render('dashboard/index.html.twig');
     }
 
 
