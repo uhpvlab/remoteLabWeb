@@ -62,6 +62,22 @@ Encore
 
     // enables Sass/SCSS support
     //.enableSassLoader()
+    .enableSassLoader(function (options) {}, {
+        resolveUrlLoader: false
+    })
+
+
+    // Enable Vue loader
+    .enableVueLoader()
+
+    .enablePostCssLoader((options) => {})
+
+
+    .configureCssLoader((config)  => {
+        if (!Encore.isProduction() && config.modules) {
+            config.modules.localIdentName = "[name]_[local]_[hash:base64:5]";
+        }
+    })
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -71,7 +87,7 @@ Encore
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+    .enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
