@@ -26,7 +26,7 @@ trait MetadataTrait
 
 
     #[ORM\Column(type: 'json', nullable: true)]
-    private array $metadata = [];
+    private ?array $metadata = [];
 
 
     public function getMetadata(): ?array
