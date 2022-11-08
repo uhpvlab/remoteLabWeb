@@ -1,0 +1,5 @@
+/* Calendar bootstrap styles fix */
+div.b-calendar-grid  div.row span{
+    box-shadow: none;
+}
+

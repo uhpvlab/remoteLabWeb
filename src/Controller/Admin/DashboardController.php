@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Bookings;
+use App\Entity\Booking;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -73,13 +73,6 @@ class DashboardController extends AbstractDashboardController
 //            ->renderSidebarMinimized();
     }
 
-    public function configureMenuItems(): iterable
-    {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Post', 'fas fa-list', BlogPost::class);
-        yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
-        yield MenuItem::linkToCrud('Bookings', 'fas fa-calendar', Bookings::class);
-    }
 
     public function configureUserMenu(UserInterface $user): UserMenu
     {
@@ -87,6 +80,17 @@ class DashboardController extends AbstractDashboardController
             return (parent::configureUserMenu($user))->setAvatarUrl($user->getRobotAvatar());
         }
         return parent::configureUserMenu($user);
+    }
+
+
+    public function configureMenuItems(): iterable
+    {
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToCrud('Post', 'fas fa-list', BlogPost::class);
+        yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
+        yield MenuItem::linkToCrud('Bookings', 'fas fa-calendar', Booking::class)
+            ->setController(BookingCrudController::class);
+        ;
     }
 
 

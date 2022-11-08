@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Bookings::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Booking::class, orphanRemoval: true)]
     private Collection $bookings;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -156,14 +156,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Bookings>
+     * @return Collection<int, Booking>
      */
     public function getBookings(): Collection
     {
         return $this->bookings;
     }
 
-    public function addBooking(Bookings $booking): self
+    public function addBooking(Booking $booking): self
     {
         if (!$this->bookings->contains($booking)) {
             $this->bookings->add($booking);
@@ -173,7 +173,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeBooking(Bookings $booking): self
+    public function removeBooking(Booking $booking): self
     {
         if ($this->bookings->removeElement($booking)) {
             // set the owning side to null (unless already changed)

@@ -7,16 +7,24 @@
 
 
 
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
+
 
             <form method="post" class="max-w-lg border rounded-lg mx-auto">
 
                 <div class="flex flex-col gap-4 p-4 md:p-8">
 
+                    {% if app.user %}
+                        <div class="bg-white">
+                            <!-- banner - start -->
+                            <div class="flex flex-wrap sm:flex-nowrap sm:justify-center sm:items-center bg-indigo-500 relative sm:gap-3 px-4 sm:pr-8 ms:px-8 py-3">
+                                <div class="order-1 sm:order-none w-11/12 sm:w-auto max-w-screen-sm inline-block text-white text-sm md:text-base mb-2 sm:mb-0">
+                                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                </div>
+                            </div>
+                            <!-- banner - end -->
+                        </div>
+
+                    {% endif %}
                     {% if error %}
                         <div class="bg-white">
                             <!-- banner - start -->

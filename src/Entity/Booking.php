@@ -6,15 +6,21 @@ use ApiPlatform\Metadata\ApiResource;
 use App\ORM\Fields\MetadataTrait;
 use App\ORM\Fields\TimestampableTrait;
 use App\ORM\Fields\UniqueIdTrait;
-use App\Repository\BookingsRepository;
+use App\Repository\BookingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: BookingsRepository::class)]
+#[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource]
-class Bookings
+class Booking
 {
+    public const dateFormat = 'Y m d H:i a';
+    public function __toString(): string
+    {
+        return $this->bookingTime->format(self::dateFormat) . ' - '.$this->duration . 'm';
+    }
+
     use MetadataTrait;
     use TimestampableTrait;
     use UniqueIdTrait;

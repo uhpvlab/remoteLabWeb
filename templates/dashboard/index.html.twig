@@ -5,5 +5,58 @@ Dashboard
 {% endblock %}
 
 {% block page_content %}
-hola mundo
+    <div data-controller="calendar" class="mb-8"  data-events-source="{{ path('app_api_calendar_bookings  ') }}">
+{#        <div class="datepicker-app row">#}
+{#            <div class="col-md-4">#}
+{#                <h2>Select a date for your booking</h2>#}
+
+{#                <b-calendar  block locale="en-US"></b-calendar>#}
+{#            </div>#}
+{#            <div class="col-md-4">#}
+{#                <h2>Select a time to start your experiments</h2>#}
+{#                <div class="timeslots">#}
+{#                    <div>#}
+{#                        <label for="example-input">Choose a time</label>#}
+{#                        <b-input-group class="mb-3">#}
+{#                            <b-form-input#}
+{#                                    id="example-input"#}
+{#                                    v-model="value"#}
+{#                                    type="text"#}
+{#                                    placeholder="HH:mm:ss"#}
+{#                            ></b-form-input>#}
+{#                            <b-input-group-append>#}
+{#                                <b-form-timepicker#}
+{#                                        v-model="value"#}
+{#                                        button-only#}
+{#                                        right#}
+{#                                        show-seconds#}
+{#                                        locale="en"#}
+{#                                        aria-controls="example-input"#}
+{#                                ></b-form-timepicker>#}
+{#                            </b-input-group-append>#}
+{#                        </b-input-group>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+        <div class="calendar-container col-md-8"></div>
+
+    </div>
+
+{#    <div class="row">#}
+{#        <div class="col-md-3">#}
+{#            <div class="card">#}
+{#                <img class="card-img-top" src="https://demos.creative-tim.com/now-ui-design-system-pro/assets/img/bg28.jpg">#}
+{#                <div class="card-body">#}
+{#                    <h4>Now UI Design System</h4>#}
+{#                    <p>#}
+{#                        One of the most beautiful and complex UI Kits built by the team behind Creative Tim. That&#34;s pretty impressive.#}
+{#                    </p>#}
+{#                    <a href="javascript:;" class="text-primary text-decoration-underline-hover">More about us</a>#}
+{#                </div>#}
+{#            </div>#}
+
+
+{#        </div>#}
+{#    </div>#}
 {% endblock %}
