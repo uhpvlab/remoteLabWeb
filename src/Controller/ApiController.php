@@ -33,7 +33,7 @@ class ApiController extends AbstractController
         $endDate = new \DateTime($request->query->get('end'));
 
         //If admin, then pass null to user param on query
-        $user = $this->isGranted('ROLE_ADMIN') ? null : $this->getUser();
+        $user = null; //$this->isGranted('ROLE_ADMIN') ? null : $this->getUser();
         $bookings = $repository->findBookingsByDateRangeAndUser($startDate, $endDate, $user);
 
         $events = [];
@@ -41,14 +41,14 @@ class ApiController extends AbstractController
         foreach ($bookings as $booking) {
             $title = $booking->__toString();
             $events[] = [
-                'title' => $booking->__toString(),
+                'title' => $booking->__toString() . " - ".$booking->getUser(),
                 'start' => $booking->getBookingTime()->format('Y-m-d H:i:s'),
 //                'url' => $this->adminUrlGenerator
 //                    ->setController(BookingCrudController::class)
 //                    ->setAction(Action::DETAIL)
 //                    ->setEntityId($booking->getId())
 //                    ->generateUrl(),
-                'backgroundColor' => '#ff0000',
+                'backgroundColor' => $booking->getUser()?->getUserIdentifier() === $this->getUser()?->getUserIdentifier() ? '#2cd967' : '#5e636e' ,
 //                'extendedProps' => [
 ////                    'id' => $booking->getOrderNumber(),
 ////                    'actions' => [

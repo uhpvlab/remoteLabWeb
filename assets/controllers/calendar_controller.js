@@ -18,11 +18,11 @@ export default class extends Controller {
         console.log('❤️');
 
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = this.element.querySelector('.calendar-container');
+            let calendarEl = this.element.querySelector('.calendar-container');
 
-            var calendar = new Calendar(calendarEl, {
+            let calendar = new Calendar(calendarEl, {
                 plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
-                initialView: 'currentWeek',
+                initialView: 'dayGridMonth',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -32,7 +32,7 @@ export default class extends Controller {
                     currentWeek: {
                         type: 'listWeek',
                         duration: { days: 7 },
-                        buttonText: 'Vista semanal',
+                        buttonText: 'Week view',
 
 
                     }
