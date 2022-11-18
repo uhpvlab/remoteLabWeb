@@ -23,7 +23,7 @@ class ApiController extends AbstractController
     /**
      * @throws \Exception
      */
-    #[Route('/api/calendar/bookings', name: 'app_api_calendar_bookings  ')]
+    #[Route('/api/calendar/bookings', name: 'app_api_calendar_bookings')]
     #[IsGranted('ROLE_USER')]
     public function getBookingsByDateRange(Request $request, BookingRepository $repository): Response
     {

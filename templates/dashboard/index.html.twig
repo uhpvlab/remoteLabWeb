@@ -5,7 +5,7 @@ Dashboard
 {% endblock %}
 
 {% block page_content %}
-    <div data-controller="calendar" class="mb-8"  data-events-source="{{ path('app_api_calendar_bookings  ') }}">
+{#    <div data-controller="calendar" class="mb-8 row"  data-events-source="{{ path('app_api_calendar_bookings  ') }}">#}
 {#        <div class="datepicker-app row">#}
 {#            <div class="col-md-4">#}
 {#                <h2>Select a date for your booking</h2>#}
@@ -39,10 +39,21 @@ Dashboard
 {#                </div>#}
 {#            </div>#}
 {#        </div>#}
-        <div class="calendar-container col-md-8"></div>
+{#        <div class="calendar-container col-md-7"></div>#}
+{#        <div class="calendar-date-details col-md-5">#}
+{#            <turbo-frame id="the_frame_id">#}
+{#                <a href="{{ path('app_login') }}">This block is scoped, the rest of the page will not change if you click here!</a>#}
+{#                <t-rich-select></t-rich-select>#}
+{#                <calendar-day-details-card></calendar-day-details-card>#}
 
-    </div>
+{#                <calendar-app></calendar-app>#}
+{#            </turbo-frame>#}
+{#        </div>#}
 
+{#    </div>#}
+
+
+    <div {{ vue_component('CalendarApp', { 'name': app.user.name, 'eventsSource': url('app_api_calendar_bookings') }) }}></div>
 {#    <div class="row">#}
 {#        <div class="col-md-3">#}
 {#            <div class="card">#}
