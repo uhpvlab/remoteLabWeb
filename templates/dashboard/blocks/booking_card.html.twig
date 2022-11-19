@@ -1,0 +1,24 @@
+<div class="row">
+    {% for booking in bookings %}
+        <div class="card m-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ booking.bookingTime | date('Y/m/d H:i') }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Duration: {{ booking.duration }}m</h6>
+                {% for set in booking.labSet %}
+                    <span class="badge badge-info text-capitalize">{{ set }}</span>
+                {% endfor %}
+                <p class="card-text">{{ booking.description}}</p>
+                <a href="{{ ea_url()
+                    .setController('App\\Controller\\Dash\\BookingCrudController')
+                    .setAction('detail')
+                    .setEntityId(booking.id)
+                }}" class="card-link">See details</a>
+                {#                    <a href="#" class="card-link">Another link</a>#}
+            </div>
+        </div>
+    {% else %}
+        <p class="blockquote">
+            No bookings yet. Add a new one from calendar view.
+        </p>
+    {% endfor %}
+</div>

@@ -2,17 +2,26 @@
 
 namespace App\Controller;
 
+use App\Controller\Dash\BookingCrudController;
+use App\Controller\Dash\UserDashboardController;
 use App\Entity\Booking;
 use App\Repository\BookingRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class ApiController extends AbstractController
 {
+
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
+    {
+    }
+
     #[Route('/api', name: 'app_api')]
     public function index(): Response
     {
@@ -43,31 +52,15 @@ class ApiController extends AbstractController
             $events[] = [
                 'title' => $booking->__toString() . " - ".$booking->getUser(),
                 'start' => $booking->getBookingTime()->format('Y-m-d H:i:s'),
-//                'url' => $this->adminUrlGenerator
-//                    ->setController(BookingCrudController::class)
-//                    ->setAction(Action::DETAIL)
-//                    ->setEntityId($booking->getId())
-//                    ->generateUrl(),
+                'url' => $this->adminUrlGenerator
+                    ->setController(BookingCrudController::class)
+                    ->setDashboard(UserDashboardController::class)
+                    ->setAction(Action::DETAIL)
+                    ->setEntityId($booking->getId())
+                    ->generateUrl(),
                 'backgroundColor' => $booking->getUser()?->getUserIdentifier() === $this->getUser()?->getUserIdentifier() ? '#2cd967' : '#5e636e' ,
-//                'extendedProps' => [
-////                    'id' => $booking->getOrderNumber(),
-////                    'actions' => [
-////                        [
-////                            'name' => 'Texto al chofer',
-////                            'path' => '#',
-//////                                'path' => $this->generateUrl('admin_booking_actions_driver_view', ['uniqueId' => $booking->getUniqueId()]),
-////                            'value' => $this->renderView('dash/board/bookings/driver_view.txt.twig', ['booking' => $booking])
-////                        ],
-//////                            [
-//////                                'name' => 'Ver detalles',
-//////                                'path' => $this->generateUrl('admin_booking_actions_driver_view', ['uniqueId' => $booking->getUniqueId()])
-//////                            ]
-////                    ],
-////                    'isCanceled' => $booking->getStatus() === $booking::STATUS_CANCELLED
-//
-//
-//                ]
-//                'borderColor' => $this->findColor($booking->getPaymentStatus()),
+//                'borderColor' => 'red',
+                'textColor' => 'green',
             ];
         }
         return new JsonResponse($events);

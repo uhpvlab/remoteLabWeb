@@ -21,7 +21,7 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'currentWeek,dayGridMonth'
+          right: 'listDay,currentWeek,dayGridMonth'
         },
         views: {
           currentWeek: {
@@ -36,7 +36,13 @@ export default {
         events: this.eventsSource,
         dateClick: function (info) {
           // alert('Clicked on: ' + info.dateStr);
-          this.$emit('dateClick', info.dateStr)
+          this.$emit('dateClick', info)
+          let calendarApi = this.$refs.fullCalendar.getApi()
+          calendarApi.changeView('listDay', info.dateStr);
+
+          // console.log(this.calendarObj.getEvents())
+          // calendarApi.next()
+          // console.log(info)
           // this.fetchDate(info.dateStr)
           // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
           // alert('Current view: ' + info.view.type);
@@ -45,16 +51,26 @@ export default {
         }.bind(this),
         eventClick: function (info) {
           // this.selectEvent(info.event.title)
-          this.$emit('eventClick', info.event)
-          alert('Event: ' + info.event.title);
-          console.log({infoObj: info})
+          // this.$emit('eventClick', info)
+          // let calendarObj = this.$refs.fullCalendar
+          // console.log(calendarObj.calendar.getEvents())
+
+          // alert('Event: ' + info.event.title);
+          // console.log({infoObj: info})
           // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
           // alert('View: ' + info.view.type);
 
           // change the border color just for fun
-          info.el.style.borderColor = 'red';
+          // info.el.style.borderColor = 'red';
         }.bind(this),
-      }
+        loading: function (isLoading){
+          // alert('is loading:' + isLoading)
+          this.$emit('loadingEvents', isLoading)
+
+        }.bind(this)
+      },
+      // calendarApi: this.$refs.fullCalendar.getApi(),
+      // calendarObj: this.$refs.fullCalendar,
     }
   }
 }
@@ -62,7 +78,7 @@ export default {
 </script>
 <template>
   <div>
-    <FullCalendar :options="calendarOptions" />
+    <FullCalendar ref="fullCalendar" :options="calendarOptions" />
   </div>
 
 </template>

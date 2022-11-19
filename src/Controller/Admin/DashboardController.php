@@ -37,7 +37,12 @@ class DashboardController extends AbstractDashboardController
 
        if($this->isGranted('ROLE_ADMIN'))
        {
-             return $this->render('dashboard/index.html.twig');
+//             return $this->render('dashboard/index.html.twig');
+           return $this->redirect($this->adminUrlGenerator
+               ->setController(\App\Controller\Dash\BookingCrudController::class)
+               ->setDashboard(DashboardController::class)
+               ->generateUrl());
+
        }
 
         return $this->redirectToRoute('dash');

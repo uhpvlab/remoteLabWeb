@@ -5,69 +5,18 @@ Dashboard
 {% endblock %}
 
 {% block page_content %}
-{#    <div data-controller="calendar" class="mb-8 row"  data-events-source="{{ path('app_api_calendar_bookings  ') }}">#}
-{#        <div class="datepicker-app row">#}
-{#            <div class="col-md-4">#}
-{#                <h2>Select a date for your booking</h2>#}
+<div class="row">
+    <div class="col-md-9">
+        <p class="h3 mt-5">Your next bookings</p>
+        {% include 'dashboard/blocks/booking_card.html.twig' with {'bookings': bookings} only %}
 
-{#                <b-calendar  block locale="en-US"></b-calendar>#}
-{#            </div>#}
-{#            <div class="col-md-4">#}
-{#                <h2>Select a time to start your experiments</h2>#}
-{#                <div class="timeslots">#}
-{#                    <div>#}
-{#                        <label for="example-input">Choose a time</label>#}
-{#                        <b-input-group class="mb-3">#}
-{#                            <b-form-input#}
-{#                                    id="example-input"#}
-{#                                    v-model="value"#}
-{#                                    type="text"#}
-{#                                    placeholder="HH:mm:ss"#}
-{#                            ></b-form-input>#}
-{#                            <b-input-group-append>#}
-{#                                <b-form-timepicker#}
-{#                                        v-model="value"#}
-{#                                        button-only#}
-{#                                        right#}
-{#                                        show-seconds#}
-{#                                        locale="en"#}
-{#                                        aria-controls="example-input"#}
-{#                                ></b-form-timepicker>#}
-{#                            </b-input-group-append>#}
-{#                        </b-input-group>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        <div class="calendar-container col-md-7"></div>#}
-{#        <div class="calendar-date-details col-md-5">#}
-{#            <turbo-frame id="the_frame_id">#}
-{#                <a href="{{ path('app_login') }}">This block is scoped, the rest of the page will not change if you click here!</a>#}
-{#                <t-rich-select></t-rich-select>#}
-{#                <calendar-day-details-card></calendar-day-details-card>#}
-
-{#                <calendar-app></calendar-app>#}
-{#            </turbo-frame>#}
-{#        </div>#}
-
-{#    </div>#}
-
-
-    <div {{ vue_component('CalendarApp', { 'name': app.user.name, 'eventsSource': url('app_api_calendar_bookings') }) }}></div>
-{#    <div class="row">#}
-{#        <div class="col-md-3">#}
-{#            <div class="card">#}
-{#                <img class="card-img-top" src="https://demos.creative-tim.com/now-ui-design-system-pro/assets/img/bg28.jpg">#}
-{#                <div class="card-body">#}
-{#                    <h4>Now UI Design System</h4>#}
-{#                    <p>#}
-{#                        One of the most beautiful and complex UI Kits built by the team behind Creative Tim. That&#34;s pretty impressive.#}
-{#                    </p>#}
-{#                    <a href="javascript:;" class="text-primary text-decoration-underline-hover">More about us</a>#}
-{#                </div>#}
-{#            </div>#}
-
-
-{#        </div>#}
-{#    </div>#}
+        {% if previousBookings is not empty %}
+            <p class="h3 mt-5">Your last bookings</p>
+            {% include 'dashboard/blocks/booking_card.html.twig' with {'bookings': previousBookings} only %}
+        {% endif %}
+    </div>
+    <div class="col-md-3">
+        <p class="h3 mt-5">PV Remote Lab status</p>
+    </div>
+</div>
 {% endblock %}

@@ -50,11 +50,55 @@ class BookingRepository extends ServiceEntityRepository
             ->setParameter('user', $user->getId())
             ->andWhere('b.bookingTime > :today')
             ->setParameter('today', new \DateTime('today'))
-            ->orderBy('b.id', 'ASC')
+            ->orderBy('b.bookingTime', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * @return Booking[] Returns an array of Bookings objects
+     * @throws \Exception
+     */
+    public function findConcurrency($args): array
+    {
+        $qb = $this->createQueryBuilder('b');
+        $duration = $args['duration'];//->format('Y-m-d H:i:s');
+        $start = $args['bookingTime'];//->format('Y-m-d H:i:s');
+//        $end = $args['endTime'];//->format('Y-m-d H:i:s');
+        $end = (clone $start)->add(new \DateInterval('PT' . $duration . 'M'));
+
+        return $qb
+
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->between('b.bookingTime ', ':bookingTime', ':endTime'),
+                $qb->expr()->between('b.endTime ', ':bookingTime', ':endTime')
+            ))
+
+            ->setParameter('bookingTime', $start)
+            ->setParameter('endTime', $end)
+            ->setMaxResults(2)
+            ->getQuery()->getResult()
+        ;
+    }
+
+
+    /**
+     * @return Booking[] Returns an array of Bookings objects
+     */
+    public function findPreviousBookingsByUser(User $user): array
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.user = :user')
+            ->setParameter('user', $user->getId())
+            ->andWhere('b.bookingTime < :today')
+            ->setParameter('today', new \DateTime('today'))
+            ->orderBy('b.bookingTime', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     /**
@@ -72,7 +116,7 @@ class BookingRepository extends ServiceEntityRepository
             $qb->andWhere('b.user = :user')
                 ->setParameter('user', $user);
         }
-            return $qb->orderBy('b.id', 'ASC')
+            return $qb->orderBy('b.bookingTime', 'ASC')
                 ->setMaxResults(100)
                 ->getQuery()
                 ->getResult()

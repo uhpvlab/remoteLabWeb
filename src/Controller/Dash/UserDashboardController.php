@@ -31,9 +31,11 @@ class UserDashboardController extends AbstractDashboardController
     {
 
         $bookings = $this->bookingRepository->findFuturesBookingsByUser($this->getUser());
+        $previousBookings = $this->bookingRepository->findPreviousBookingsByUser($this->getUser());
 
         return $this->render('dashboard/index.html.twig', [
-            'bookings' => $bookings
+            'bookings' => $bookings,
+            'previousBookings' => $previousBookings
         ]);
 
 
@@ -54,6 +56,35 @@ class UserDashboardController extends AbstractDashboardController
         // return $this->render('some/path/my-dashboard.html.twig');
     }
 
+    #[Route('/dash/calendar', name: 'dash_calendar')]
+    #[IsGranted('ROLE_USER')]
+    public function calendar(): Response
+    {
+
+//        $bookings = $this->bookingRepository->findFuturesBookingsByUser($this->getUser());
+
+        return $this->render('dashboard/calendar.html.twig', [
+//            'bookings' => $bookings,
+//            'previousBookings' => $previousBookings
+        ]);
+
+
+        // Option 1. You can make your dashboard redirect to some common page of your backend
+        //
+        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
+
+        // Option 2. You can make your dashboard redirect to different pages depending on the user
+        //
+        // if ('jane' === $this->getUser()->getUsername()) {
+        //     return $this->redirect('...');
+        // }
+
+        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
+        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
+        //
+        // return $this->render('some/path/my-dashboard.html.twig');
+    }
 
     public function configureDashboard(): Dashboard
     {
@@ -124,6 +155,7 @@ class UserDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToRoute('Calendar', 'fa fa-calendar', 'dash_calendar');
          yield MenuItem::linkToCrud('My Bookings', 'fas fa-list', Booking::class)
              ->setController(BookingCrudController::class);
     }

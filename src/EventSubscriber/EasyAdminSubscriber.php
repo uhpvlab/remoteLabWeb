@@ -104,11 +104,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         if($this->tokenStorage->getToken()->getUser() instanceof  User)
         {
             $user = $this->tokenStorage->getToken()->getUser();
-            dump($user);
             if($user instanceof User)
             {
                 $entity->setUser($user);
-                dump($entity);
             }
             else {
                 throw new \Exception('Not user detected on request');
