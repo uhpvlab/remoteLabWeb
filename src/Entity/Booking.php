@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ApiResource]
@@ -24,6 +25,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Booking
 {
     public const dateFormat = 'Y m d H:i a';
+    public const durationChoices = [
+        '2h' => 120,
+        '1h' => 60,
+        '45m' => 45,
+        '30m' => 30,
+        '15m' => 15,
+        '10m' => 10,
+    ];
+    public const labSets = [
+        'Thermography' => 'thermography',
+        'Outdoor photovoltaic system' => 'outdoor-pv',
+        'Solar tracking system' => 'solar-tracking',
+        'Electroluminescence' => 'electroluminescence',
+    ];
+
     public function __toString(): string
     {
         return $this->bookingTime->format(self::dateFormat) . ' - '.$this->duration . 'm';
@@ -43,6 +59,7 @@ class Booking
     private ?User $user = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThan('now')]
     private ?\DateTimeInterface $bookingTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

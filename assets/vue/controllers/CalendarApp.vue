@@ -20,6 +20,7 @@ export default {
     eventClickHandler(info) {
       this.currentEvent = info.event
       this.currentDate = info.event.startStr.split('T')[0]
+      window.currentDate = this.currentDate
       // console.log(info)
       // alert('event-title' + event.title)
     },
@@ -37,8 +38,7 @@ export default {
 }
 </script>
 <template>
-  <div class="row">
-    <div class="col-md-8 position-relative">
+    <div class="col-md-12 position-relative">
       <div v-if="isLoading" class="position-absolute background-secondary px-5 py-3 "
            style="top: 8em; left: 2em; z-index: 20"
       >
@@ -50,10 +50,7 @@ export default {
           @event-click="eventClickHandler"
           @loading-events="toggleLoadingStatus"
       />
-    </div>
-    <div class="col-md-4">
       <DateDetails :date="currentDate"></DateDetails>
-<!--      <EventDetails :event="currentEvent"></EventDetails>-->
+
     </div>
-  </div>
 </template>

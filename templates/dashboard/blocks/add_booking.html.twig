@@ -1,0 +1,9 @@
+<h4>Add Booking</h4>
+<turbo-frame id="booking_form_frame">
+{#{{ component('booking_form', {#}
+{#    booking: booking.id ? booking : null,#}
+{#    form: form#}
+{#}) }}#}
+    {{ form(form) }}
+
+</turbo-frame>

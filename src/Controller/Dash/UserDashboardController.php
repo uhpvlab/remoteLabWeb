@@ -4,6 +4,7 @@ namespace App\Controller\Dash;
 
 use App\Entity\Booking;
 use App\Entity\User;
+use App\Form\BookingAddType;
 use App\Repository\BookingRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -12,6 +13,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Security\Permission;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -67,24 +70,61 @@ class UserDashboardController extends AbstractDashboardController
 //            'bookings' => $bookings,
 //            'previousBookings' => $previousBookings
         ]);
-
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
     }
+
+
+    #[Route('/dash/booking/add', name: 'dash_booking_post_add')]
+    #[IsGranted('ROLE_USER')]
+    public function addBooking(Request $request, BookingRepository $repository): Response
+    {
+
+        $booking = new Booking();
+        $form = $this->createForm(BookingAddType::class, $booking, [
+            'action'=>$this->generateUrl('dash_booking_post_add')
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            dump($booking);
+            $booking->setBookingTime(new \DateTime($booking->__get('bookingDate') .
+                date_format(date_create()->setTimestamp($booking->__get('bookingTimeSlot')), 'H:i')
+                ));
+            $booking->setUser($this->getUser());
+            $booking->setVisibility('public');//TODO: load defaults
+
+            $coincidentBookings = $repository->findConcurrency([
+                'duration' => $booking->getDuration(),
+                'bookingTime' => $booking->getBookingTime()
+                ]);
+            if(count($coincidentBookings) > 0)
+            {
+                $form->addError(new FormError('The selected date/time is not free'));
+            }
+            elseif ($booking->getBookingTime() < new \DateTime('now'))
+            {
+                $form->addError(new FormError('The selected date/time must be in the future'));
+
+            }
+            else {
+                $repository->save($booking, flush: true);
+                return $this->redirectToRoute('dash');
+            }
+        }
+        return $this->renderForm('dashboard/blocks/add_booking.html.twig', [
+            'booking' => $booking,
+            'form' => $form,
+        ]);
+//        $bookings = $this->bookingRepository->findFuturesBookingsByUser($this->getUser());
+
+        return $this->render('dashboard/calendar.html.twig', [
+//            'bookings' => $bookings,
+//            'previousBookings' => $previousBookings
+        ]);
+    }
+
+
+
 
     public function configureDashboard(): Dashboard
     {

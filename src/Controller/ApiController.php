@@ -52,6 +52,7 @@ class ApiController extends AbstractController
             $events[] = [
                 'title' => $booking->__toString() . " - ".$booking->getUser(),
                 'start' => $booking->getBookingTime()->format('Y-m-d H:i:s'),
+                'end' => $booking->getEndTime()->format('Y-m-d H:i:s'),
                 'url' => $this->adminUrlGenerator
                     ->setController(BookingCrudController::class)
                     ->setDashboard(UserDashboardController::class)

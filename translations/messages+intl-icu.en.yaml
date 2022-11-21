@@ -1,0 +1,5 @@
+user.sign_out: Logout
+user.exit_impersonation: Exit impersonation
+content_admin.flash_message.create: Record "%name%" created
+content_admin.flash_message.update: Record "%name%" updated
+content_admin.flash_message.delete: Record "%name%" deleted

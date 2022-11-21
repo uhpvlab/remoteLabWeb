@@ -75,23 +75,26 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         $this->requestStack->getSession()->getFlashBag()->add('success', new TranslatableMessage('content_admin.flash_message.create', [
             '%name%' => (string) $event->getEntityInstance(),
-        ], 'admin'));
+        ], 'messages'));
     }
 
     public function flashMessageAfterUpdate(AfterEntityUpdatedEvent $event): void
     {
         $this->requestStack->getSession()->getFlashBag()->add('success', new TranslatableMessage('content_admin.flash_message.update', [
             '%name%' => (string) $event->getEntityInstance(),
-        ], 'admin'));
+        ], 'messages'));
     }
 
     public function flashMessageAfterDelete(AfterEntityDeletedEvent $event): void
     {
         $this->requestStack->getSession()->getFlashBag()->add('success', new TranslatableMessage('content_admin.flash_message.delete', [
             '%name%' => (string) $event->getEntityInstance(),
-        ], 'admin'));
+        ], 'messages'));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function setUserDataOnBookingForm(BeforeEntityPersistedEvent|BeforeEntityUpdatedEvent $event){
 
         $entity = $event->getEntityInstance();

@@ -35,27 +35,15 @@ class BookingCrudController extends AbstractCrudController
 //            IdField::new('id'),
             AssociationField::new('user'),
             DateTimeField::new('bookingTime'),
-            DateTimeField::new('endTime')->hideOnForm(),
+            DateTimeField::new('endTime'),
             ChoiceField::new('labSet')
-                ->setChoices([
-                    'thermography' => 'thermography',
-                    'Outdoor photovoltaic system' => 'outdoor-pv',
-                    'Solar tracking system' => 'solar-tracking',
-                    'Electroluminescence' => 'electroluminescence',
-                ])
+                ->setChoices(Booking::labSets)
                 ->setRequired(true)
                 ->allowMultipleChoices(true)            ,
 
 
             ChoiceField::new('duration')
-                ->setChoices([
-                    '2h' => 120,
-                    '1h' => 60,
-                    '45m' => 45,
-                    '30m' => 30,
-                    '15m' => 15,
-                    '10m' => 10,
-                ])
+                ->setChoices(Booking::durationChoices)
                 ->setRequired(true),
 
             ChoiceField::new('visibility')

@@ -1,7 +1,5 @@
 <template>
-<div class="col-md-12">
-  <p class="h4">{{ date }} details</p>
-</div>
+  <p class="h4" id="currentDate">{{ date }}</p>
 </template>
 
 <script>
