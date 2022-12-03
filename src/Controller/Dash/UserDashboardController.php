@@ -6,6 +6,7 @@ use App\Entity\Booking;
 use App\Entity\User;
 use App\Form\BookingAddType;
 use App\Repository\BookingRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -28,6 +29,9 @@ class UserDashboardController extends AbstractDashboardController
     {
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     #[Route('/dash', name: 'dash')]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
@@ -35,10 +39,12 @@ class UserDashboardController extends AbstractDashboardController
 
         $bookings = $this->bookingRepository->findFuturesBookingsByUser($this->getUser());
         $previousBookings = $this->bookingRepository->findPreviousBookingsByUser($this->getUser());
+        $currentBooking = $this->bookingRepository->getCurrentDateTimeBooking();
 
         return $this->render('dashboard/index.html.twig', [
             'bookings' => $bookings,
-            'previousBookings' => $previousBookings
+            'previousBookings' => $previousBookings,
+            'currentBooking' => $currentBooking
         ]);
 
 

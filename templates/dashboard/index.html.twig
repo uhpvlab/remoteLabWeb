@@ -17,6 +17,18 @@ Dashboard
     </div>
     <div class="col-md-3">
         <p class="h3 mt-5">PV Remote Lab status</p>
+        {% if currentBooking is not null %}
+            <p class="lead mt-5">
+                Currently, there is an instance of remote Lab running.
+                <a href="#">You can see some details here.</a>
+            </p>
+        {% else %}
+            <p class="lead mt-5">
+                There isn't any booking for the lab in this moment.
+                <a href="btn btn-primary">You can use the lab now by adding a new booking.
+                </a>
+            </p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

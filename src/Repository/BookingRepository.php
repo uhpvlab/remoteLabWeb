@@ -85,6 +85,22 @@ class BookingRepository extends ServiceEntityRepository
 
 
     /**
+     * @return array|null Returns an array of Bookings objects
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getCurrentDateTimeBooking(): ?array
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.bookingTime < :now')
+            ->andWhere('b.endTime > :now')
+            ->setParameter('now', new \DateTime('now'))
+            ->orderBy('b.bookingTime', 'ASC')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+    /**
      * @return Booking[] Returns an array of Bookings objects
      */
     public function findPreviousBookingsByUser(User $user): array
